@@ -1,0 +1,85 @@
+---
+title: "Faceting MD"
+author: "Selene Muñoz"
+date: "2/10/2021"
+output: html_document
+---
+Instalar paqueterías 
+
+install.packages("gapminder")
+
+install.packages("ggplot2")
+
+Cargar librerías ggplot2 y gapminder
+```{r}
+library(ggplot2)
+library(gapminder)
+```
+
+Cargar datos a entorno
+```{r}
+data("gapminder")
+```
+
+Filtrando por año 2007
+```{r}
+gapminder2007 <- gapminder[gapminder$year == '2007', ]
+```
+
+Colocar gráfica base
+```{r}
+p <- ggplot(data = gapminder2007,
+            mapping = aes(x= gdpPercap,
+                          y=lifeExp,
+                          color= continent))+
+  geom_point()
+```
+
+Crear objeto p
+```{r}
+p
+```
+
+Facet_wrap (recomendado con una variable)
+```{r}
+p + facet_wrap(~continent)
+```
+
+Manipulando número de filas
+```{r}
+p + facet_wrap(~continent, nrow = 1)
+```
+
+Manipulando número de columnas
+```{r}
+p + facet_wrap(~continent, ncol = 2)
+```
+
+
+
+Facet con dos variables
+
+Creando data para 2002 y 2007
+```{r}
+gapminder02_07 <- gapminder[gapminder$year %in% c('2002','2007'),]
+```
+
+Creando gráfica base "g2"
+```{r}
+g2 <- ggplot(data = gapminder02_07,
+            mapping = aes(x= gdpPercap,
+                          y=lifeExp,
+                          color= continent))+
+  geom_point()
+
+```
+
+Esperanza de vida por continente y año (forma 1)
+```{r}
+g2 + facet_grid(continent~year)
+```
+
+Esperanza de vida por continente y año (forma 2)
+```{r}
+g2 + facet_grid(year~continent)
+```
